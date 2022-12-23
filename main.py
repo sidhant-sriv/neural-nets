@@ -18,7 +18,7 @@
 # layer2.forward(layer1.output)
 # print(layer2.output)
 import numpy as np
-
+import matplotlib.pyplot as plt
 np.random.seed(0)
 X = [[1, 1, 1, 1], [-1, -1, -1, -1], [1, -1, 1, -1], [-1, 1, -1, 1], [-1, -1, 1, 1]]
 Y = [0.25, 0.95, 0.25, 0.25, 0.95]
@@ -35,10 +35,15 @@ class Layer:
 
     def forward(self, prev_activation):
         self.output = sigmoid(np.dot(prev_activation, self.weights) + self.bias)
-layer1 = Layer(5,5)
+layer1 = Layer(4,5)
 layer1.forward(X)
 print(layer1.output - np.array(Y))
+res = []
 for _ in range(100):
     layer1.forward(X)
     E = layer1.output - np.array(Y)
     print(np.dot(E, E.T))
+    res.append(np.dot(E,E.T))
+    plt.plot(res)
+    plt.pause(0.1)
+plt.draw()
